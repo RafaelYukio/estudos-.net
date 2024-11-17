@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MVCCleanArchitecture.Domain\MVCCleanArchitecture.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

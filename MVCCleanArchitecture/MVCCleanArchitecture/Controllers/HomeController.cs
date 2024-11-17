@@ -1,21 +1,20 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using MVCCleanArchitecture.Domain.Interfaces.Services.Base;
 using MVCCleanArchitecture.Models;
 
 namespace MVCCleanArchitecture.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController(ILogger<HomeController> logger,
+                                ITransacaoService transacaoService) : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<HomeController> _logger = logger;
+        private readonly ITransacaoService _transacaoService = transacaoService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public async Task<IActionResult> Index()
         {
-            _logger = logger;
-        }
-
-        public IActionResult Index()
-        {
-            return View();
+            var transactions = await _transacaoService.GetAllAsync();
+            return View(transactions);
         }
 
         public IActionResult Privacy()

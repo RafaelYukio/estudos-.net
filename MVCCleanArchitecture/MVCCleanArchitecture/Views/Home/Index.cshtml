@@ -1,8 +1,33 @@
-﻿@{
+﻿@using MVCCleanArchitecture.Domain.Entities
+
+@model IEnumerable<Transacao>
+
+@{
     ViewData["Title"] = "Home Page";
 }
+
+<style>
+    table {border: 5px solid red;}
+</style>
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+
+
+
+<table class="table">
+    <tr>
+        <th>Id</th>
+        <th>Date</th>
+    </tr>
+
+    @foreach (var transacao in Model)
+    {
+        <tr>
+            <td>@transacao.TransacaoID</td>
+            <td>@transacao.CreatedDate</td>
+        </tr>
+    }
+</table>
