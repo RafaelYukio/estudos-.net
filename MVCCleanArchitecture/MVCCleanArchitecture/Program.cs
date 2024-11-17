@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
+using MVCCleanArchitecture.Application.Interfaces;
 using MVCCleanArchitecture.Application.Services;
 using MVCCleanArchitecture.Domain.Interfaces.Respositories;
-using MVCCleanArchitecture.Domain.Interfaces.Services.Base;
+using MVCCleanArchitecture.Domain.Interfaces.Services;
+using MVCCleanArchitecture.Domain.Services;
 using MVCCleanArchitecture.Infrastructure.Data;
 using MVCCleanArchitecture.Infrastructure.Repositories;
 
@@ -15,6 +17,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddScoped<ITransacaoService, TransacaoService>();
 builder.Services.AddScoped<ITransacaoRepository, TransacaoRepository>();
+builder.Services.AddScoped<IStatusService, StatusService>();
+builder.Services.AddScoped<IStatusRepository, StatusRepository>();
+builder.Services.AddScoped<IDataItemService, DataItemService>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

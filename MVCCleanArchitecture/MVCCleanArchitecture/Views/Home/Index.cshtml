@@ -1,33 +1,69 @@
-﻿@using MVCCleanArchitecture.Domain.Entities
+﻿@using MVCCleanArchitecture.Application.DTOs
 
-@model IEnumerable<Transacao>
+@model IEnumerable<DataItem>
 
 @{
     ViewData["Title"] = "Home Page";
 }
 
-<style>
-    table {border: 5px solid red;}
-</style>
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
-
-
-
-<table class="table">
-    <tr>
-        <th>Id</th>
-        <th>Date</th>
-    </tr>
-
-    @foreach (var transacao in Model)
-    {
+<table class="table table-striped">
+    <thead>
         <tr>
-            <td>@transacao.TransacaoID</td>
-            <td>@transacao.CreatedDate</td>
+            <th>Entity</th>
+            <th>Origem</th>
+            <th>CreatedDate</th>
+            <th>Data</th>
         </tr>
-    }
+    </thead>
+    <tbody>
+        @{
+            int i = 0;
+        }
+        @foreach (var data in Model)
+        {
+            <tr class="accordion-toggle" data-target="#details-@i">
+                <td>@data.Data.GetType().Name</td>
+                <td>@data.Origem</td>
+                <td>@data.CreatedDate</td>
+                <td><button class="btn btn-info">View Details</button></td>
+            </tr>
+            <tr id="details-@i" class="accordion-content" style="display: none;">
+                <td colspan="3">
+                    <div>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Property</th>
+                                    <th>Value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var property in data.Data.GetType().GetProperties())
+                                {
+                                    <tr>
+                                        <td>@property.Name</td>  <!-- Nome da propriedade -->
+                                        <td>@property.GetValue(data.Data, null)</td>  <!-- Valor da propriedade -->
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+            i++;
+        }
+    </tbody>
 </table>
+
+<script>
+    document.querySelectorAll('.accordion-toggle').forEach(function(row) {
+        row.addEventListener('click', function() {
+            var target = document.querySelector(row.getAttribute('data-target'));
+            if (target.style.display === 'none' || target.style.display === '') {
+                target.style.display = 'table-row';
+            } else {
+                target.style.display = 'none';
+            }
+        });
+    });
+</script>

@@ -1,7 +1,7 @@
 ﻿using MVCCleanArchitecture.Domain.Interfaces.Respositories.Base;
 using MVCCleanArchitecture.Domain.Interfaces.Services.Base;
 
-namespace MVCCleanArchitecture.Application.Services.Base
+namespace MVCCleanArchitecture.Domain.Services.Base
 {
     public class BaseService<T>(IBaseRepository<T> baseRepository) : IBaseService<T> where T : class
     {
