@@ -5,5 +5,6 @@ namespace MVCCleanArchitecture.Domain.Interfaces.Services
 {
     public interface IStatusService : IBaseService<Status>
     {
+        Task<List<Status>> GetByTransacaoIdAsync(int id);
     }
 }

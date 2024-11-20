@@ -6,54 +6,69 @@
     ViewData["Title"] = "Home Page";
 }
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Entity</th>
-            <th>Origem</th>
-            <th>CreatedDate</th>
-            <th>Data</th>
-        </tr>
-    </thead>
-    <tbody>
-        @{
-            int i = 0;
-        }
-        @foreach (var data in Model)
-        {
-            <tr class="accordion-toggle" data-target="#details-@i">
-                <td>@data.Data.GetType().Name</td>
-                <td>@data.Origem</td>
-                <td>@data.CreatedDate</td>
-                <td><button class="btn btn-info">View Details</button></td>
+@using (Html.BeginForm("Index", "Home", FormMethod.Get))
+{
+    <div>
+        <input type="text" name="searchTerm" value="@ViewBag.SearchTerm" placeholder="Buscar por produto..." />
+        <button type="submit">Buscar</button>
+    </div>
+}
+
+@if (Model != null && Model.Any())
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Entity</th>
+                <th>Origem</th>
+                <th>CreatedDate</th>
+                <th>Data</th>
             </tr>
-            <tr id="details-@i" class="accordion-content" style="display: none;">
-                <td colspan="3">
-                    <div>
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Property</th>
-                                    <th>Value</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var property in data.Data.GetType().GetProperties())
-                                {
+        </thead>
+        <tbody>
+            @{
+                int i = 0;
+            }
+            @foreach (var data in Model)
+            {
+                <tr class="accordion-toggle" data-target="#details-@i">
+                    <td>@data.Data.GetType().Name</td>
+                    <td>@data.Origem</td>
+                    <td>@data.CreatedDate</td>
+                    <td><button class="btn btn-info">View Details</button></td>
+                </tr>
+                <tr id="details-@i" class="accordion-content" style="display: none;">
+                    <td colspan="3">
+                        <div>
+                            <table class="table">
+                                <thead>
                                     <tr>
-                                        <td>@property.Name</td>  <!-- Nome da propriedade -->
-                                        <td>@property.GetValue(data.Data, null)</td>  <!-- Valor da propriedade -->
+                                        <th>Property</th>
+                                        <th>Value</th>
                                     </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                </td>
-            </tr>
-            i++;
-        }
-    </tbody>
-</table>
+                                </thead>
+                                <tbody>
+                                    @foreach (var property in data.Data.GetType().GetProperties())
+                                    {
+                                        <tr>
+                                            <td>@property.Name</td>  <!-- Nome da propriedade -->
+                                            <td>@property.GetValue(data.Data, null)</td>  <!-- Valor da propriedade -->
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+                i++;
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Nenhum produto encontrado.</p>
+}
 
 <script>
     document.querySelectorAll('.accordion-toggle').forEach(function(row) {

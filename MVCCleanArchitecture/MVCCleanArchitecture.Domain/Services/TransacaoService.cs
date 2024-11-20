@@ -5,7 +5,11 @@ using MVCCleanArchitecture.Domain.Interfaces.Services;
 
 namespace MVCCleanArchitecture.Domain.Services
 {
-    public class TransacaoService(ITransacaoRepository transacaoRepository) : BaseService<Transacao>(transacaoRepository), ITransacaoService
+    public class TransacaoService(ITransacaoRepository _transacaoRepository) : BaseService<Transacao>(_transacaoRepository), ITransacaoService
     {
+        public async Task<Transacao?> GetByIdAsync(int id)
+        {
+            return await _transacaoRepository.GetByIdAsync(id);
+        }
     }
 }

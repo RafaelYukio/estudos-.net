@@ -1,7 +1,6 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using MVCCleanArchitecture.Application.Interfaces;
-using MVCCleanArchitecture.Domain.Interfaces.Services;
 using MVCCleanArchitecture.Models;
 
 namespace MVCCleanArchitecture.Controllers
@@ -12,10 +11,17 @@ namespace MVCCleanArchitecture.Controllers
         private readonly ILogger<HomeController> _logger = logger;
         private readonly IDataItemService _dataItemService = dataItemService;
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchTerm)
         {
-            var data = await _dataItemService.GetDataItemsAsync();
-            return View(data);
+            if (searchTerm != null )
+            {
+                var data = await _dataItemService.GetDataItemByTransacaoIdAsync(Convert.ToInt32(searchTerm));
+
+                ViewBag.SearchTerm = searchTerm;  // Envia o termo de busca para a view
+                return View(data);   // Retorna a lista de produtos filtrados para a view
+            }
+
+            return View();   // Retorna a lista de produtos filtrados para a view
         }
 
         public IActionResult Privacy()

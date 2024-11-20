@@ -5,5 +5,6 @@ namespace MVCCleanArchitecture.Domain.Interfaces.Respositories
 {
     public interface IStatusRepository : IBaseRepository<Status>
     {
+        Task<List<Status>> GetByTransacaoIdAsync(int id);
     }
 }

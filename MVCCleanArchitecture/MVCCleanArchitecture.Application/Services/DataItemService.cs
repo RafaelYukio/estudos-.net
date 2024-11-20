@@ -10,6 +10,29 @@ namespace MVCCleanArchitecture.Application.Services
         private readonly ITransacaoService _transacaoService = transacaoService;
         private readonly IStatusService _statusService = statusService;
 
+        public async Task<IEnumerable<DataItem>> GetDataItemByTransacaoIdAsync(int id)
+        {
+            var transacao = await _transacaoService.GetByIdAsync(id);
+
+            var dataItems = new List<DataItem>();
+
+            dataItems.Add(new DataItem
+            {
+                Data = transacao,
+                Origem = "Database",
+                CreatedDate = transacao.CreatedDate
+            });
+
+            dataItems.AddRange(transacao.Status.Select(status => new DataItem
+            {
+                Data = status,
+                Origem = "Database",
+                CreatedDate = status.CreatedDate
+            }));
+
+            return dataItems.OrderByDescending(d => d.CreatedDate);
+        }
+
         public async Task<IEnumerable<DataItem>> GetDataItemsAsync()
         {
             var transacoes = await _transacaoService.GetAllAsync();

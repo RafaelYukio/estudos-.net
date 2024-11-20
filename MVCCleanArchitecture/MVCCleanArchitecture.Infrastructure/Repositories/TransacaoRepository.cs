@@ -10,7 +10,10 @@ namespace MVCCleanArchitecture.Infrastructure.Repositories
     {
         public async Task<Transacao?> GetByIdAsync(int id)
         {
-            return await _DbSet.AsNoTracking().FirstOrDefaultAsync(entity => entity.TransacaoID == id);
+            return await _DbSet
+                .Include(t => t.Status)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(entity => entity.TransacaoID == id);
         }
     }
 }
