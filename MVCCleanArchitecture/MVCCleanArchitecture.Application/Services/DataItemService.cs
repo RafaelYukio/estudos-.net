@@ -16,6 +16,11 @@ namespace MVCCleanArchitecture.Application.Services
 
             var dataItems = new List<DataItem>();
 
+            if (transacao == null)
+            {
+                return dataItems;
+            }
+
             dataItems.Add(new DataItem
             {
                 Data = transacao,

@@ -9,61 +9,61 @@
 @using (Html.BeginForm("Index", "Home", FormMethod.Get))
 {
     <div>
-        <input type="text" name="searchTerm" value="@ViewBag.SearchTerm" placeholder="Buscar por produto..." />
+        <input class="search" type="text" name="searchTerm" value="@ViewBag.SearchTerm" placeholder="Buscar por produto..." />
         <button type="submit">Buscar</button>
     </div>
 }
 
 @if (Model != null && Model.Any())
 {
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Entity</th>
-                <th>Origem</th>
-                <th>CreatedDate</th>
-                <th>Data</th>
-            </tr>
-        </thead>
-        <tbody>
-            @{
-                int i = 0;
-            }
-            @foreach (var data in Model)
-            {
-                <tr class="accordion-toggle" data-target="#details-@i">
-                    <td>@data.Data.GetType().Name</td>
-                    <td>@data.Origem</td>
-                    <td>@data.CreatedDate</td>
-                    <td><button class="btn btn-info">View Details</button></td>
+    <div class="wrapper">
+        <table class="table table-striped table-wrapper">
+            <thead>
+                <tr>
+                    <th>Origem</th>
+                    <th>Entity</th>
+                    <th>CreatedDate</th>
                 </tr>
-                <tr id="details-@i" class="accordion-content" style="display: none;">
-                    <td colspan="3">
-                        <div>
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>Property</th>
-                                        <th>Value</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var property in data.Data.GetType().GetProperties())
-                                    {
+            </thead>
+            <tbody>
+                @{
+                    int i = 0;
+                }
+                @foreach (var data in Model)
+                {
+                    <tr class="accordion-toggle" data-target="#details-@i">
+                        <td>@data.Origem</td>
+                        <td>@data.Data.GetType().Name</td>
+                        <td>@data.CreatedDate</td>
+                    </tr>
+                    <tr id="details-@i" class="accordion-content" style="display: none;">
+                        <td colspan="3">
+                            <div>
+                                <table class="table">
+                                    <thead>
                                         <tr>
-                                            <td>@property.Name</td>  <!-- Nome da propriedade -->
-                                            <td>@property.GetValue(data.Data, null)</td>  <!-- Valor da propriedade -->
+                                            <th>Property</th>
+                                            <th>Value</th>
                                         </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                    </td>
-                </tr>
-                i++;
-            }
-        </tbody>
-    </table>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var property in data.Data.GetType().GetProperties())
+                                        {
+                                            <tr>
+                                                <td>@property.Name</td>  <!-- Nome da propriedade -->
+                                                <td>@property.GetValue(data.Data, null)</td>  <!-- Valor da propriedade -->
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                    i++;
+                }
+            </tbody>
+        </table>
+    </div>
 }
 else
 {
@@ -81,4 +81,14 @@ else
             }
         });
     });
+    // Função para expandir ou contrair a linha com o endereço
+    function toggleObjectDetails(event) {
+        // Identifica o próximo <tr> após a linha clicada
+        var nextRow = event.target.closest('tr').nextElementSibling;
+        if (nextRow.style.display === "none" || nextRow.style.display === "") {
+            nextRow.style.display = "table-row";  // Exibe a linha
+        } else {
+            nextRow.style.display = "none";  // Oculta a linha
+        }
+    }
 </script>
