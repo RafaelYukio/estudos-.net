@@ -4,10 +4,10 @@ using MVCCleanArchitecture.Infrastructure.Data;
 
 namespace MVCCleanArchitecture.Infrastructure.Repositories.Base
 {
-    public abstract class BaseRepository<T>(ApplicationDbContext context) : IBaseRepository<T> where T : class
+    public abstract class BaseRepository<T>(DbContext context) : IBaseRepository<T> where T : class
     {
         public readonly DbSet<T> _DbSet = context.Set<T>();
-        public readonly ApplicationDbContext _context = context;
+        public readonly DbContext _context = context;
 
         public virtual async Task<T> InsertAsync(T entity)
         {

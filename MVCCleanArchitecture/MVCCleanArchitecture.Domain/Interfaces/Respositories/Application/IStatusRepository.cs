@@ -1,7 +1,7 @@
 ﻿using MVCCleanArchitecture.Domain.Entities;
 using MVCCleanArchitecture.Domain.Interfaces.Respositories.Base;
 
-namespace MVCCleanArchitecture.Domain.Interfaces.Respositories
+namespace MVCCleanArchitecture.Domain.Interfaces.Respositories.Application
 {
     public interface IStatusRepository : IBaseRepository<Status>
     {
